@@ -1,0 +1,59 @@
+<!-- START FLASH -->                     
+<% if flash[:title] == "Error" %>
+    <div class="alert alert-danger"><%= flash[:notice] %><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span></button></div>
+<% elsif flash[:title] == "Success" %>
+    <div class="alert alert-success"><%= flash[:notice] %><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span></button></div>
+<% end %>
+<!-- END FLASH -->
+
+<!-- START BREADCRUMB -->
+<ul class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li>Departments</li>
+    <li>Report</li>               
+</ul>
+<!-- END BREADCRUMB -->  
+
+<!-- START TITLE -->
+<div class="page-title">                    
+    <h2><span class="fa fa-tachometer"></span> Department Bucks Reports</h2>
+</div>
+<!-- END TITLE -->
+
+<div class="page-content-wrap">
+
+  <div class="page-content-wrap">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="row">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <%= form_tag (''), :method => 'get', :id => 'department_filter' do %>
+              <div class="col-md-3">
+                <%= select_tag :month, options_for_select(@months), include_blank: "Month", class: "form-control" %>
+              </div>
+              <div class="col-md-3">
+                <%= select_tag :year, options_for_select(@years), include_blank: "Year", class: "form-control" %>
+              </div>
+              <div class="col-md-3">
+                <%= submit_tag 'Show Report', name: 'report_button', id: 'report_button', class: "btn btn-primary" %>
+              </div> 
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default panel-body">
+        <% if !@month.nil? && !@year.nil? %>
+          <h2>Budget Report: (<%= @month %>, <%= @year %>)</h2>
+          <% @month_num = Date::MONTHNAMES.index(@month) %>
+          <%= render 'dept_report' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

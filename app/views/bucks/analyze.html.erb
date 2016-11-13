@@ -39,7 +39,7 @@
                 <%= select_tag :year, options_for_select(@years), include_blank: "Year", class: "form-control" %>
               </div>
               <div class="col-md-3">
-                <%= submit_tag 'Show', id: 'department_filter_button', class: "btn btn-primary" %>
+                <%= submit_tag 'Show', name: 'department_filter_button', id: 'department_filter_button', class: "btn btn-primary" %>
               </div> 
             <% end %>
           </div>

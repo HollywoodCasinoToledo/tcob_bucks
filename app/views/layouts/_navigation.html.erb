@@ -46,7 +46,7 @@
                 <li><a href="#"><span class="fa fa-info-circle"></span>About</a></li>
  -->            </ul>
         </li>
-        <li><%= link_to 'Logout', controller: :sessions, action: :destroy %></li>
+        <li><a href="/logout"><span class="fa fa-sign-out"></span><span class="xn-text">Logout</span></a></li>
 
     <% if @current_user.can_issue_bucks %>
       <li class="xn-title">Manage</li>

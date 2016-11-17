@@ -33,6 +33,8 @@
 				@internal_total = @internal.count
 				@external_total = @external.count
 				@total = @internal_total + @external_total
+				@internal_percent = ((@internal_total.to_f / @total.to_f) * 100).round(2)
+				@external_percent = ((@external_total.to_f / @total.to_f) * 100).round(2)
 
 				%>
 				<tr class = "tr-clickable" onclick=" window.document.location = '/depts/analyze/<%= d.id %>?utf8=✓&month=<%= @month %>&year=<%= @year %>&commit=Show'; ">
@@ -43,8 +45,8 @@
 				<td class="success"> <%= @internal_total %> </td>
 				<td class="success"> <%= @external_total %> </td>
 				<td class="success"> <%= @total %> </td>
-				<td class="danger"> <%= ((@internal_total.to_f / @total.to_f) * 100).round(2) %> </td>
-				<td class="danger"> <%= ((@external_total.to_f / @total.to_f) * 100).round(2) %> </td>
+				<td class="danger"> <%= @internal_percent.nan? ? 0 : @internal_percent %>% </td>
+				<td class="danger"> <%= @external_percent.nan? ? 0 : @external_percent %>% </td>
 				<td class="warning"> <%= reason_count(@internal,"Attendance") %> </td>
 				<td class="warning"> <%= reason_count(@internal,"Customer Service") %> </td>
 				<td class="warning"> <%= reason_count(@internal,"Shift Coverage") %> </td>

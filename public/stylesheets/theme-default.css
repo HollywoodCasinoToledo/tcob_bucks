@@ -11669,6 +11669,15 @@ a {
   text-align: center;
 }
 
+.favorites-photo {
+  margin: -15px -15px 0px -15px;
+}
+.favorites-remove {
+  float: right;
+}
+.favorites-progress-text {
+  float: right;
+}
 
 .prize-container .prize-tag {
     float: inherit;
@@ -11684,8 +11693,6 @@ a {
     position: absolute;
     margin-left: 160px;
     z-index : 1;
-
-
 }
 
 .prize-photo {

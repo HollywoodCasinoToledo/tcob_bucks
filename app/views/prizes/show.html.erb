@@ -26,13 +26,15 @@
       <div class="col-md-4">
         <div class="panel panel-default">
           <div class="panel-body">
-            <div class = "prize-detail-cell-picture" style="background-image: url('<%= @prize.get_first_image %>')"></div>
+            <div id = "prize_image_holder" class = "prize-detail-cell-picture" style="background-image: url('<%= @prize.get_first_image %>')"></div>
           </div>
         </div>
-        <% @images.each do |i| 
-          if !i.blank? %>
-          <img src="<%= i %>" class="img-thumbnail" height="50px" width="50px"/>
-        <% end end %>
+        <div id="variant_images">
+          <% @images.each do |i| 
+            if !i.blank? %>
+            <img src="<%= i %>" class="img-thumbnail" height="50px" width="50px"/>
+          <% end end %>
+        </div>
       </div>
       <div class="col-md-8">
         <div class="panel panel-default">

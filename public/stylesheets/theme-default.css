@@ -11447,6 +11447,10 @@ a {
   max-width: 40%;
 }
 
+.img-thumbnail:hover {
+  cursor: pointer;
+}
+
 .purchase-list{
     width: 100%;
 }

@@ -67,6 +67,7 @@
                 <%= hidden_field :prize, :id, value: @prize.id %>
                 <%= hidden_field :prize, :subcat_id, value: @chosen.id if !@chosen.nil? %>
                 <%= hidden_field :employee, :id, value: @current_user.id %>
+                <%= hidden_field :online, value: true %>
 
                 <% if !@chosen.nil? && @chosen.stock > 0 %>
                   <h3><span class="label label-success"><%= @chosen.stock %> In Stock</span></h3>

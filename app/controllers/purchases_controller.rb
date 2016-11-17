@@ -24,7 +24,7 @@ class PurchasesController < ApplicationController
 							flash[:title] = 'Success'
 							flash[:notice] = 'Item is reserved! Once the order has been processed, 
 							you can find the prize in your wardrobe bag or pick it up from wardrobe during open hours. If it is a large item, you will be able to pick it up at security.'
-							redirect_to employee_path(@employee)
+							redirect_to controller: :prizes, action: :orders_personal
 					else
 						if @current_user.can_manage_inventory && !@prize.must_order
 							quantity.times do
@@ -39,6 +39,7 @@ class PurchasesController < ApplicationController
 								purchase = reserve(@prize, @prize_subcat, @employee)
 								perform_bucks_purchase_transaction(@prize, @employee, purchase)
 							end
+							Mailer.order_notify(@prize, @prize_subcat, @employee, quantity).deliver_now
 							flash[:title] = 'Success'
 							flash[:notice] = 'Item is reserved, but must be ordered by HR.'
 							redirect_to controller: :prizes, action: :orders_personal

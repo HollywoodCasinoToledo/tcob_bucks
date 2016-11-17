@@ -51,7 +51,7 @@ class Mailer < ApplicationMailer
 	def notify_issuer(buck, issuer, employee, decision, reason)
 		@buck = buck
 		@issuer = issuer
-		@employee - employee
+		@employee = employee
 		@decision = decision
 		@reason = reason
 
@@ -81,7 +81,7 @@ class Mailer < ApplicationMailer
 		@prize_subcat = prize_subcat
 		@quantity = quantity
 
-		mail(to: ['HWT.Wardrobe@pngaming.com', 'paul.rowden@pngaming.com', 'amber.ulrich@pngaming.com', 'jzermen@bgsu.edu'], subject: 'New Prize Order')
+		mail(to: ['HWT.Wardrobe@pngaming.com', 'Paul.Rowden@pngaming.com', 'Amber.Ulrich@pngaming.com', 'jzermen@bgsu.edu'], subject: 'New Prize Order')
 	end
 
 	def pending_buck_approval(user, buck)

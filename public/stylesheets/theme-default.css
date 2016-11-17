@@ -2365,7 +2365,7 @@ body {
 .page-container .page-content {
   min-height: 100%;
   margin-left: 250px;
-  background: #e8e8e8 url('../images/bg.png') left top repeat;
+  background: #e8e8e8;
   position: relative;
   zoom: 1;
 }
@@ -2381,7 +2381,7 @@ body {
   float: left;
   width: 100%;
   position: relative;
-  background: #e8e8e8 url('../images/bg.png') left top repeat;
+  background: #e8e8e8;
 }
 .page-container .page-content .content-frame .content-frame-top {
   float: left;

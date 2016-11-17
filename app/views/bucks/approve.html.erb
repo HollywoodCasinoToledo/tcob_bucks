@@ -1,34 +1,60 @@
-<div class="row">
-  <div class="col-sm-12">
-    <div class="panel panel-default panel-body">
+<!-- START FLASH -->                     
+<% if flash[:title] == "Error" %>
+    <div class="alert alert-danger"><%= flash[:notice] %><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span></button></div>
+<% elsif flash[:title] == "Success" %>
+    <div class="alert alert-success"><%= flash[:notice] %><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span></button></div>
+<% end %>
+<!-- END FLASH -->
 
-        <% if flash[:title] == "Error" %>
-          <div class="notice-error"><%= flash[:notice] %></div>
-        <% elsif flash[:title] == "Success" %>
-          <div class="notice-success"><%= flash[:notice] %></div>
-        <% end %>
+<!-- START BREADCRUMB -->
+<ul class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="/bucks">Bucks</a></li>
+    <li>Pending Approval</li>               
+</ul>
+<!-- END BREADCRUMB -->  
 
-        <%= render 'buck_detail' %>
+<!-- START TITLE -->
+<div class="page-title">                    
+    <h2><span class="fa fa-clock-o"></span> Bucks Requiring Your Approval</h2>
+</div>
+<!-- END TITLE -->
 
-        <div class = "inline-form-container">
-          <%= form_tag :action => 'update' do %>
 
-            <label for = "buck-value">Approving Value:</label>
-              <%= text_field 'buck', 'value', value: @buck.value %>
-              <%= hidden_field_tag :id, @buck.id %>
-              <%= hidden_field_tag :decision, 'Approve' %>
-              <%= submit_tag 'Approve' %>
-          <% end -%>
-          <br/><br/>
-          <%= form_tag :action => 'update' do %>
-            <label for = "buck-value">Reason for Denial:</label>
-            <%= text_area_tag 'buck[denial_reason]', nil, size: "32x6", id: 'reason_long' %>
-            <%= hidden_field_tag :id, @buck.id %>
-            <%= hidden_field_tag :decision, 'Deny' %>
-            <%= submit_tag 'Deny' %>
-          <% end -%>
-
+<!-- PAGE CONTENT WRAPPER -->
+<div class="page-content-wrap">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-default panel-body">
+        <div class="table-responsive">
+          <%= render 'buck_detail' %>
         </div>
-     </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3">
+      <div class="panel panel-default panel-body">
+        <%= form_tag :action => 'update' do %>
+
+          <label for = "buck-value">Approving Value:</label>
+            <%= text_field 'buck', 'value', value: @buck.value, class: "form-control" %>
+            <%= hidden_field_tag :id, @buck.id %>
+            <%= hidden_field_tag :decision, 'Approve' %><br/>
+            <%= submit_tag 'Approve', class: 'btn btn-primary' %>
+        <% end -%>
+      </div>
+    </div>
+    <div class="col-sm-9">
+      <div class="panel panel-default panel-body">
+        <%= form_tag :action => 'update' do %>
+          <label for = "buck-value">Reason for Denial:</label>
+          <%= text_area_tag 'buck[denial_reason]', nil, size: "32x6", id: 'reason_long', class: "form-control" %>
+          <%= hidden_field_tag :id, @buck.id %>
+          <%= hidden_field_tag :decision, 'Deny' %><br/>
+          <%= submit_tag 'Deny', class: 'btn btn-primary' %>
+        <% end -%>
+      </div>
+    </div>
   </div>
 </div>

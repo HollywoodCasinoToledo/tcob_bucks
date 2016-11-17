@@ -29,6 +29,12 @@ class Buck < ActiveRecord::Base
     end
   end
 
+  def self.get_from_time(month, year)
+    month = Date::MONTHNAMES.index(month) 
+    where('extract(year  from approved_at) = ?
+        AND extract(month from approved_at) = ?', "#{year}", "#{month}")
+  end
+
   def self.search_employee(employeeID, month, year)
     month = Date::MONTHNAMES.index(month) 
     if !month.blank? && !year.blank?

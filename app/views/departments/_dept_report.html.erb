@@ -1,0 +1,66 @@
+<div class="table-responsive">
+	<table class = 'table table-bordered table-condensed'>
+		<thead>
+			<th>Department</th>
+			<th># of TM's</th>
+			<th>% Tickets Given</th>
+			<th>Issued</th>
+			<th class="success">Internal #</th>
+			<th class="success">External #</th>
+			<th class="success">Total #</th>
+			<th class="danger">Internal %</th>
+			<th class="danger">External %</th>
+			<th class="warning">Attendance</th>
+			<th class="warning">Customer Svc</th>
+			<th class="warning">Shift Cov</th>
+			<th class="warning">Comm Involv</th>
+			<th class="warning">Other</th>
+			<th class="warning">Total</th>
+			<th class="info">Attendance</th>
+			<th class="info">Customer Svc</th>
+			<th class="info">Shift Cov</th>
+			<th class="info">Comm Involv</th>
+			<th class="info">Other</th>
+			<th class="info">Total</th>
+		</thead>
+		<tbody>
+			<% @departments.each do |d| 
+				@month_num = Date::MONTHNAMES.index(@month)
+				@tms = Employee.where(department_id: d.id)
+				@issued = @bucks.select { |b| Employee.find(b.assignedBy).department_id == d.id }
+				@internal = @issued.select { |b| Employee.find(b.employee_id).department_id == d.id }
+				@external = @issued.select { |b| Employee.find(b.employee_id).department_id != d.id }
+				@internal_total = @internal.count
+				@external_total = @external.count
+				@total = @internal_total + @external_total
+				@internal_percent = ((@internal_total.to_f / @total.to_f) * 100).round(2)
+				@external_percent = ((@external_total.to_f / @total.to_f) * 100).round(2)
+
+				%>
+				<tr class = "tr-clickable" onclick=" window.document.location = '/depts/analyze/<%= d.id %>?utf8=✓&month=<%= @month %>&year=<%= @year %>&commit=Show'; ">
+				<td> <%= d.name %> </td>
+				<td> <%= @tms.count %> </td>
+				<td> <%= d.get_budget_used_percent(@month_num, @year) %>% </td>
+				<td> <%= d.get_budget_used(@month_num, @year) %> </td>
+				<td class="success"> <%= @internal_total %> </td>
+				<td class="success"> <%= @external_total %> </td>
+				<td class="success"> <%= @total %> </td>
+				<td class="danger"> <%= @internal_percent.nan? ? 0 : @internal_percent %>% </td>
+				<td class="danger"> <%= @external_percent.nan? ? 0 : @external_percent %>% </td>
+				<td class="warning"> <%= reason_count(@internal,"Attendance") %> </td>
+				<td class="warning"> <%= reason_count(@internal,"Customer Service") %> </td>
+				<td class="warning"> <%= reason_count(@internal,"Shift Coverage") %> </td>
+				<td class="warning"> <%= reason_count(@internal,"Community Involvement") %> </td>
+				<td class="warning"> <%= reason_count(@internal,"Other") %> </td>
+				<td class="warning"> <%= @external_total %> </td>
+				<td class="info"> <%= reason_count(@external,"Attendance") %> </td>
+				<td class="info"> <%= reason_count(@external,"Customer Service") %> </td>
+				<td class="info"> <%= reason_count(@external,"Shift Coverage") %> </td>
+				<td class="info"> <%= reason_count(@external,"Community Involvement") %> </td>
+				<td class="info"> <%= reason_count(@external,"Other") %> </td>
+				<td class="info"> <%= @external_total %> </td>
+			</tr>
+			<% end %>
+		</tbody>
+	</table>
+</div>

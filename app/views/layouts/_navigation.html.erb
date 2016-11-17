@@ -46,7 +46,7 @@
                 <li><a href="#"><span class="fa fa-info-circle"></span>About</a></li>
  -->            </ul>
         </li>
-        <li><%= link_to 'Logout', controller: :sessions, action: :destroy %></li>
+        <li><a href="/logout"><span class="fa fa-sign-out"></span><span class="xn-text">Logout</span></a></li>
 
     <% if @current_user.can_issue_bucks %>
       <li class="xn-title">Manage</li>
@@ -109,7 +109,10 @@
       <li class="xn-title">Admin</li>
         <li>
           <a href="/admin/bucks/analyze"><span class="fa fa-tachometer"></span> <span class="xn-text">Review Budgets</span></a>
-        </li>                    
+        </li>      
+        <li>
+          <a href="/admin/depts/reports"><span class="fa fa-bar-chart-o"></span> <span class="xn-text">Dept Reporting</span></a>
+        </li>              
         <li>
           <a href="/admin/depts"><span class="fa fa-building"></span> <span class="xn-text">Manage Depts</span></a>
         </li>

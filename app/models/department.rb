@@ -30,7 +30,7 @@ class Department < ActiveRecord::Base
 #    self.get_budget_overall / Employee.where(department_id: self.id).where(role_id: [2,3,4,5,6]).count
 #  end
 
-  def get_remaining_from_budget
+  	def get_remaining_from_budget
 		@department.budget - get_bucks_issued
 	end
 

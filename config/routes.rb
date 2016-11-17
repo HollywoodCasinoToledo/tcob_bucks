@@ -62,10 +62,11 @@ Rails.application.routes.draw do
 
   get 'login'                         => 'sessions#new'
   post 'login'                        => 'sessions#create'
-  get 'logout'                     => 'sessions#destroy'
+  get 'logout'                        => 'sessions#destroy'
 
   get 'admin/depts'                   => 'departments#edit'
   post 'admin/depts'                  => 'departments#update'
+  get 'admin/depts/reports'           => 'departments#reports'
   get 'admin/depts/approver'          => 'departments#approvers'
   get 'admin/depts/approver_add'      => 'departments#approver_add'
   get 'admin/logs/bucks'              => 'bucks#logs'

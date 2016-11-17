@@ -8,6 +8,12 @@ $ ->
     false
   return
 
+$ ->
+  $('#variant_images').on 'click', 'img', ->
+    $('#prize_image_holder').attr('style', 'background-image: url(' + $(this).attr('src') + ')')
+    false
+  return
+
 $(document).ready ->
   setTableRowsClickableEmployees()
   return
@@ -16,6 +22,7 @@ $(document).ajaxStop ->
   return
 
 setTableRowsClickableEmployees = undefined
+
 
 setTableRowsClickableEmployees = ->
   j = undefined

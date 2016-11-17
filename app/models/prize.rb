@@ -2,10 +2,25 @@ class Prize < ActiveRecord::Base
 
   has_many :prize_subcats
   has_many :favorites
+  has_many :purchases
   has_many :employees, through: :favorites
 
 	validates_presence_of :name, :message => 'Name: Cannot be blank'
 	validates_numericality_of :cost, :greater_than => 0, :message => 'Cost: Must be number and greater than 0'
+
+  scope :top_favorited, -> {
+    select("prizes.id, prizes.name, count(favorites.id) AS favorites_count").
+    joins(:favorites).
+    group("prizes.id").
+    order("favorites_count DESC").
+    limit(5) }
+
+  scope :top_purchased, -> {
+    select("prizes.id, prizes.name, count(purchases.id) AS purchases_count").
+    joins(:purchases).
+    group("prizes.id").
+    order("purchases_count DESC").
+    limit(5) }
 
 	def self.search(id, name, available)
     if id || name 

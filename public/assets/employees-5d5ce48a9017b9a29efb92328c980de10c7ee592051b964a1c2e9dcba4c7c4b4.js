@@ -1,1 +1,0 @@
-(function(){$(function(){$("#search_employee_button").on("click",function(){return $.get($("#employee_search").attr("action"),$("#employee_search").serialize(),null,"script"),!1})})}).call(this);

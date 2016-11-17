@@ -24,9 +24,9 @@ class BucksController < ApplicationController
 				@employees = Employee.where(department_id: @department.id).order(:last_name).select { |e| e.can_issue_bucks }
 			end
 		else 
-			flash.now[:title] = 'Error'
-			flash.now[:notice] = 'You do not have permission to view that buck.'
-			render 'show'
+			flash[:title] = 'Error'
+			flash[:notice] = 'You do not have permission to analyze budgets.'
+			redirect_to controller: :employees, action: :show, id: @current_user.IDnum
 		end
 	end
 

@@ -1,5 +1,8 @@
 class DepartmentsController < ApplicationController
 	include SessionsHelper
+	include BucksHelper
+	include EmployeesHelper
+	include ApplicationHelper
 
 	before_filter :authenticate_user_logged_in
 	
@@ -43,8 +46,22 @@ class DepartmentsController < ApplicationController
 		@departments = Department.all.order(name: :asc)
 	end
 
-	def test
+	def reports
+		if @current_user.has_admin_access
+			@months = Buck.group("month(bucks.approved_at)").map { |b| b.approved_at.strftime("%B") if !b.approved_at.nil? } 
+			@years = Buck.group("year(bucks.approved_at)").map { |b| b.approved_at.strftime("%Y") if !b.approved_at.nil? }
+			@bucks = Buck.get_from_time(params[:month], params[:year])
+			@departments = Department.all.order(:name)
+			if !params[:month].blank? && !params[:year].blank?
+				@month = params[:month] if !params[:month].blank?
+				@year = params[:year] if !params[:year].blank?
 
+			end
+		else 
+			flash[:title] = 'Error'
+			flash[:notice] = 'You do not have permission to view department reports.'
+			redirect_to controller: :employees, action: :show, id: @current_user.IDnum
+		end
 	end
 
 	def update

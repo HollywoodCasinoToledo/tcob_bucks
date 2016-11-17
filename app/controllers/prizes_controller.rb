@@ -75,6 +75,8 @@ class PrizesController < ApplicationController
 	end
 
 	def manage
+		@top_favorited = Prize.top_favorited
+		@top_purchased = Prize.top_purchased
 		@prizes = Prize.search(params[:id], params[:name], params[:available])
 	end
 

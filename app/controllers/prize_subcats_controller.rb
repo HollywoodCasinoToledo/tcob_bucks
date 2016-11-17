@@ -39,6 +39,8 @@ class PrizeSubcatsController < ApplicationController
 	def manage
 		@prize = Prize.find(params[:id])
 		@prize_subcats = PrizeSubcat.search(@prize.id, params[:size], params[:color], params[:brand])
+		@favorites = Favorite.where(prize_id: @prize.id).count
+		@purchases = Purchase.where(prize_id: @prize.id).count
 	end
 
 	def prize

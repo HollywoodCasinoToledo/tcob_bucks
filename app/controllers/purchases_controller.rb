@@ -71,6 +71,11 @@ class PurchasesController < ApplicationController
 			:purchase_id => @purchase.id,
 			:trans => "Delivered").save
 
+		notification_params = { to_id: @purchase.employee_id, 
+			from_id: @current_user, 
+			category: Notification::ORDER_COMPLETE }
+		Notification.new(notification_params).save
+
 		flash[:title] = 'Success'
 		flash[:notice] = 'Purchase order confirmed and delivered.'
 		redirect_to controller: :prizes, action: :index
@@ -226,6 +231,11 @@ class PurchasesController < ApplicationController
 			:prize_id => params[:prize_id],
 			:prize_subcat_id => params[:prize_subcat],
 			:trans => "Returned").save
+
+		notification_params = { to_id: @purchase.employee_id, 
+			from_id: @current_user, 
+			category: Notification::REFUND_PRIZE }
+		Notification.new(notification_params).save
 
 
 		@purchase.update_attribute(:returned, true)

@@ -1,0 +1,55 @@
+<!-- START FLASH -->                     
+<% if flash[:title] == "Error" %>
+    <div class="alert alert-danger"><%= flash[:notice] %><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span></button></div>
+<% elsif flash[:title] == "Success" %>
+    <div class="alert alert-success"><%= flash[:notice] %><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span></button></div>
+<% end %>
+<!-- END FLASH -->
+
+<!-- START BREADCRUMB -->
+<ul class="breadcrumb">
+    <li><a href="/">Home</a></li>  
+    <li>Notifications</li>             
+</ul>
+<!-- END BREADCRUMB -->  
+
+<!-- START TITLE -->
+<div class="page-title">                    
+    <h2><span class="fa fa-bell"></span> Notifications</h2>
+</div>
+<!-- END TITLE -->
+
+
+
+<div class="page-content-wrap">
+	<%= form_tag controller: :notifications, action: :mark_as_read do %>
+  <div class="panel-body">
+  	<%= submit_tag 'Mark As Read', class: "btn btn-primary" %>
+  </div>
+	<div class="row">
+    <div class="col-xs-12">
+			<div class="panel panel-default">
+				<div class="panel-body mail">
+					
+					<% @notifications.each do |n| %>
+						<% if n.read %>
+						<div class="mail-item">
+						<% else %>
+						<div class="mail-item mail-unread mail-primary">
+						<% end %>
+						 	<div class="mail-checkbox">
+						 		<%= check_box_tag "notification_ids[]", n.id, class: "icheckbox" %>
+		          </div>
+		          <div class="mail-user"><%= Employee.find(n.from_id).full_name %></div>
+		          <a href="<%= n.get_target_url %>" class="mail-text"><%= n.get_message %></a>
+		          <div class="mail-date"><%= n.created_at %></div>
+						</div>
+					<% end %>
+
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<% end %>
+</div>

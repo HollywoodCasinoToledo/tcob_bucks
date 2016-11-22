@@ -3,6 +3,8 @@ class Employee < ActiveRecord::Base
   has_many :favorites
   has_many :bucks
   has_many :prizes, through: :favorites
+  has_many :to, class_name: 'Notification', foreign_key: 'to_id'
+  has_many :from, class_name: 'Notification', foreign_key: 'from_id'
 
   require 'csv'
 
@@ -227,6 +229,14 @@ class Employee < ActiveRecord::Base
 
   def is_over_budget?(month, year)
     self.get_personal_budget_used(month, year) > Department.find(self.department_id).get_budget_per_employee
+  end
+
+  def get_unread_notification_count
+    return Notification.where(to: self).where(read: false).count
+  end
+
+  def get_unread_notifications
+    return Notification.where(to: self).where(read: false)
   end
 
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161107055149) do
+ActiveRecord::Schema.define(version: 20161120010822) do
 
   create_table "buck_logs", force: :cascade do |t|
     t.integer  "buck_id",       limit: 4,   null: false
@@ -93,6 +93,16 @@ ActiveRecord::Schema.define(version: 20161107055149) do
     t.string   "title",      limit: 255, null: false
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.integer  "to_id",      limit: 4
+    t.integer  "from_id",    limit: 4
+    t.integer  "target_id",  limit: 4
+    t.boolean  "read",                   default: false
+    t.string   "category",   limit: 255
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
   end
 
   create_table "permissions", force: :cascade do |t|

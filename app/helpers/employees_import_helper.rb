@@ -41,7 +41,8 @@ module EmployeesImportHelper
 				Employee.new(employee_params).save
 			else
 				@employee = Employee.find_by(IDnum: e[COLUMN_EMPLOYEE_NUMBER])
-				Employee.update(@employee.id, status: e[COLUMN_STATUS])
+				@employee.update_attributes(status: e[COLUMN_STATUS], department_id: extract_department_id(e[COLUMN_DEPARTMENT]),
+					job_id: e[COLUMN_JOB_CODE])
 			end
 		end
 	end

@@ -8,9 +8,9 @@
         @num = rand(@images.length)
         @images.each_with_index do |image, index| 
         if index == @num %>
-          <div class="item item-200 active"><%= image_tag "slideshow/#{image.split('/').last}" %></div>
+          <div class="item item-300 active"><%= image_tag "slideshow/#{image.split('/').last}" %></div>
         <% else %>
-          <div class="item item-200"><%= image_tag "slideshow/#{image.split('/').last}" %></div>
+          <div class="item item-300"><%= image_tag "slideshow/#{image.split('/').last}" %></div>
     <% end end %>
     
     </div>

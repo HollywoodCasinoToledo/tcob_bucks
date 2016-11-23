@@ -2,7 +2,7 @@
 	<p>None</p>
 <% else %>
 	<div class="table-responsive">
-		<table class="table table-striped">
+		<table class="table table-hover table-striped">
 			<thead>
 				<th><%= buck_sortable "number" %></th>
 				<th><%= buck_sortable "employee_id" %></th>
@@ -19,7 +19,7 @@
 			<% @bucks.each do |b| 
 				@assignedTo = Employee.find(b.employee_id) 
 				@assignedBy = Employee.find(b.assignedBy) %>
-			<tr class = "tr-list" onclick=" window.document.location = 'pending/<%= b.id %>'; ">
+			<tr class = "tr-list tr-clickable" onclick=" window.document.location = 'pending/<%= b.id %>'; ">
 				<td> <%= b.number %> </td>
 				<td> <%= b.employee_id %> </td>
 				<td> <%= @assignedTo.first_name + " " + @assignedTo.last_name %> </td>

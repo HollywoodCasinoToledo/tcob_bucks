@@ -14,6 +14,23 @@ $ ->
     false
   return
 
+$ ->
+  $('#store_purchase_button').on 'click', ->
+    color = $('#color').val();
+    size = $('#size').val();
+    quantity = $('#prize_quantity').val();
+    brand = $('#brand').val();
+    $('#popup_message').html("Color: " + color + "<br/>Size: " + size + "<br/>Brand: " + brand + "<br/>Quantity: " + quantity);
+    $('#message-box-default').attr('style', 'display: block')
+    false
+  return
+
+$ ->
+  $('#store_cancel_button').on 'click', ->
+    $('#message-box-default').attr('style', 'display: none')
+    false
+  return
+
 $(document).ready ->
   setTableRowsClickableEmployees()
   return

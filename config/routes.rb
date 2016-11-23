@@ -95,6 +95,9 @@ Rails.application.routes.draw do
   get 'favorites/create/'             => 'favorites#create'
   get 'favorites/delete'              => 'favorites#delete'
 
+  get 'notifications'                 => 'notifications#index'
+  post 'notifications'                 => 'notifications#mark_as_read'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

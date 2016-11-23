@@ -45,15 +45,36 @@ class Mailer < ApplicationMailer
 		@buck = buck
 		@issuer = Employee.find(buck.assignedBy)
 
+		notification_params = { to_id: user.IDnum, 
+			from_id: @issuer.IDnum, 
+			read: false,
+			target_id: @buck.number,
+			category: Notification::NEW_BUCK }
+		Notification.new(notification_params).save
+
 		mail(to: user.email, subject: 'Buck Awarded!')
 	end
 
-	def notify_issuer(buck, issuer, employee, decision, reason)
+	def notify_issuer(buck, issuer, employee, approver, decision, reason)
 		@buck = buck
 		@issuer = issuer
 		@employee = employee
 		@decision = decision
 		@reason = reason
+
+		if decision == 'Approved'
+			notification_params = { to_id: issuer.IDnum, 
+				from_id: approver.IDnum, 
+				target_id: @buck.number,
+				category: Notification::BUCK_APPROVED }
+			Notification.new(notification_params).save
+		else
+			notification_params = { to_id: issuer.IDnum, 
+				from_id: approver.IDnum, 
+				target_id: @buck.number,
+				category: Notification::BUCK_DENIED }
+			Notification.new(notification_params).save
+		end
 
 		mail(to: @issuer.email, subject: 'Pending Buck Status')
 	end
@@ -85,6 +106,8 @@ class Mailer < ApplicationMailer
 	end
 
 	def pending_buck_approval(user, buck)
+		# Function to notify designated approvers that a buck is requiring approval.
+		# user - issuer
 		@user = user
 		@buck = buck
 		@employee = Employee.find_by(IDnum: buck.employee_id)
@@ -93,8 +116,23 @@ class Mailer < ApplicationMailer
 		@approver2 = Department.find(@employee.department_id).approve2
 
 		@approvers = Array.new
-		Employee.where(status: 'Active').where(job_id: @approver1).each { |e| @approvers.push(e.email) }
-		Employee.where(status: 'Active').where(job_id: @approver2).each { |e| @approvers.push(e.email) }
+		Employee.where(status: 'Active').where(job_id: @approver1).each do |e| 
+			@approvers.push(e.email) if !e.nil?
+			notification_params = { to_id: e.IDnum, 
+				from_id: user.IDnum, 
+				target_id: buck.number,
+				category: Notification::PENDING_BUCK }
+			Notification.new(notification_params).save
+		end
+
+		Employee.where(status: 'Active').where(job_id: @approver2).each do |e| 
+			@approvers.push(e.email) if !e.nil? 
+			notification_params = { to_id: e.IDnum, 
+				from_id: user.IDnum, 
+				target_id: buck.number,
+				category: Notification::PENDING_BUCK }
+			Notification.new(notification_params).save
+		end
 
 		mail(to: @approvers, subject: 'Buck Requiring Approval')
 	end

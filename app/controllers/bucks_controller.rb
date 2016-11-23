@@ -32,6 +32,7 @@ class BucksController < ApplicationController
 
 	def approve
 		if @current_user.can_view_buck(Buck.find(params[:id]))
+			Notification.where(to: @current_user.IDnum).where(target_id: params[:id]).first.update_attribute(:read, true)
 			@buck = Buck.find(params[:id])
 		else 
 			flash.now[:title] = 'Error'
@@ -96,7 +97,6 @@ class BucksController < ApplicationController
 				:status_after => @buck.status }
 			BuckLog.new(buck_log_params).save
 
-			
 			flash[:title] = 'Success'
 			flash[:notice] = 'Buck has been submitted!'
 			redirect_to :action => 'show', id: @buck.id
@@ -174,6 +174,7 @@ class BucksController < ApplicationController
 
 	def show
 		if @current_user.can_view_buck(Buck.find(params[:id]))
+			Notification.where(to: @current_user.IDnum).where(target_id: params[:id]).first.update_attribute(:read, true)
 			@buck = Buck.find(params[:id])
 		else 
 			flash.now[:title] = 'Error'
@@ -216,9 +217,11 @@ class BucksController < ApplicationController
 					:status_after => 'Active' }
 				BuckLog.new(approved_buck_log_params).save
 
-				Mailer.notify_issuer(@buck, Employee.find(@buck.assignedBy), Employee.find(@buck.employee_id), "Approved", "Approved").deliver_now
-
+				Mailer.notify_employee(@buck, Employee.find(@buck.employee_id)).deliver_now
+				Mailer.notify_issuer(@buck, Employee.find(@buck.assignedBy), Employee.find(@buck.employee_id), @current_user, "Approved", "Approved").deliver_now
+				
 				redirect_to @buck
+
 			elsif params[:decision] == 'Deny'
 				@buck.update_attribute(:status, 'Denied')
 				@buck.update_attribute(:value, 0)
@@ -230,7 +233,7 @@ class BucksController < ApplicationController
 				flash[:notice] = 'Buck has been denied'
 				BuckLog.new(buck_log_params).save
 
-				Mailer.notify_issuer(@buck, Employee.find(@buck.assignedBy), Employee.find(@buck.employee_id), "Denied", params[:buck][:denial_reason]).deliver_now
+				Mailer.notify_issuer(@buck, Employee.find(@buck.assignedBy), Employee.find(@buck.employee_id), @current_user, "Denied", params[:buck][:denial_reason]).deliver_now
 
 				redirect_to @buck
 			else

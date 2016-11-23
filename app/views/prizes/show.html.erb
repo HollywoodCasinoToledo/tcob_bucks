@@ -77,7 +77,24 @@
                   <h3><span class="label label-danger">Out Of Stock</span></h3>
                 <% end %>
 
-                  <%= submit_tag 'Purchase', class: "btn btn-primary" if !@chosen.nil? && @chosen.stock > 0 %>
+                <div class="message-box animated fadeIn" id="message-box-default">
+                  <div class="mb-container">
+                    <div class="mb-middle">
+                      <div class="mb-title"><span class="fa fa-warning"></span> Confirm Purchase</div>
+                        <div class="mb-content">
+                          <p id="popup_message">Example message</p>                    
+                        </div>
+                        <div class="mb-footer">
+                          <button id="store_cancel_button" class="btn btn-danger btn-lg pull-right mb-control-close">Cancel</button>
+                          <%= submit_tag 'Purchase', class: "btn btn-success btn-lg pull-right" %>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+
+                  <% if !@chosen.nil? && @chosen.stock > 0 %>
+                    <div id="store_purchase_button" class="btn btn-primary">Purchase</div>
+                  <% end %>
                   <% if Favorite.find_by(employee_id: @current_user, prize_id: params[:id]).blank? %>
                     <%= link_to controller: :favorites, action: :create, prize_id: @prize.id do %>
                       <div class = "btn btn-primary">Add to Favorites</div>
@@ -100,5 +117,6 @@
     <div class="panel panel-default">
       <div class="panel-body"></div>
     </div>
+
   </div>
 </div>

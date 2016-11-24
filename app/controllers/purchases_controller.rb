@@ -72,7 +72,8 @@ class PurchasesController < ApplicationController
 			:trans => "Delivered").save
 
 		notification_params = { to_id: @purchase.employee_id, 
-			from_id: @current_user, 
+			from_id: @current_user.IDnum,
+			target_id: @purchase.prize_id, 
 			category: Notification::ORDER_COMPLETE }
 		Notification.new(notification_params).save
 
@@ -137,8 +138,15 @@ class PurchasesController < ApplicationController
 	end
 
 	def orders
-		@orders = Purchase.where(status: 'Ordered').where(pickedup_by: nil)
-		@orders_picked_up = Purchase.where(status: 'Ordered').where(pickedup_by: @current_user.id)
+		if @current_user.can_manage_inventory
+			@orders = Purchase.where(status: 'Ordered').where(pickedup_by: nil)
+			@orders_picked_up = Purchase.where(status: 'Ordered').where(pickedup_by: @current_user.id)
+			@orders_picked_up_others = Purchase.where(status: 'Ordered').where.not(pickedup_by: @current_user.id).where.not(pickedup_by: nil)
+		else
+			flash[:title] = 'Error'
+			flash[:notice] = 'You do not have permission to view any orders except your own.'
+			redirect_to controller: :purchases, action: :orders_personal
+		end
 	end
 
 	def orders_personal

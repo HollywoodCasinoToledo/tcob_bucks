@@ -7,7 +7,7 @@
 <div class="panel-body list-group list-group-contacts scroll" style="height: 200px;">
     <% @current_user.get_unread_notifications.each do |n| %>
         <a href="<%= n.get_target_url %>" class="list-group-item">
-            <div class="list-group-status status-online"></div>
+            <!-- <div class="list-group-status status-online"></div> -->
             <%= image_tag get_profile_picture(n.from_id), class: "pull-left" %>
             <span class="contacts-title"><%= Employee.find(n.from_id).full_name %></span>
             <p><%= n.get_message %></p>

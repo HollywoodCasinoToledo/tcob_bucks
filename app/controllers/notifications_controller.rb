@@ -5,6 +5,9 @@ class NotificationsController < ApplicationController
 	before_filter :authenticate_user_logged_in
 
 	def index
+		if params[:notification_id]
+			Notification.where(id: params[:notification_id]).update_all(read: true)
+		end
 		@notifications = Notification.where(to_id: @current_user.IDnum)
 	end
 

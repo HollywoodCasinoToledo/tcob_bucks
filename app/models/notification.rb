@@ -22,9 +22,9 @@ class Notification < ActiveRecord::Base
 			when PENDING_ORDER
 				return '/admin/orders'
 			when ORDER_COMPLETE
-				return '/employees/' + self.to_id.to_s
+				return '/notifications?utf8=✓&notification_id=' + self.id.to_s
 			when REFUND_PRIZE
-				return '/employees/' + self.to_id.to_s
+				return '/notifications?utf8=✓&notification_id=' + self.id.to_s
 			else
 				return '#'
 		end

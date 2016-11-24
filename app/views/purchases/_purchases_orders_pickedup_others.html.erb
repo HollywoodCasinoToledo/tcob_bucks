@@ -1,0 +1,44 @@
+<% if @orders_picked_up_others.blank? %>
+	<p>None</p>
+<% else %>
+<div class="table-responsive">
+	<table class = 'table table-striped'>
+		<thead>
+			<th>Purchase ID</th>
+			<th>Employee #</th>
+			<th>Employee Name</th>
+			<th>Cashier #</th>
+			<th>Cashier Name</th>
+			<th>Transaction</th>
+			<th>Prize</th>
+			<th>Brand</th>
+			<th>Size</th>
+			<th>Color</th>
+			<th>Ordered</th>
+			<th>Action</th>
+		</thead>
+		<tbody>
+		<% @orders_picked_up_others.each do |o|  
+			@employee = Employee.find(o.employee_id)
+			@cashier = Employee.find(o.cashier_id)
+			@prize_subcat = PrizeSubcat.find(o.prize_subcat_id)
+		%>
+		<tr>
+			<td> <%= o.id %> </td>
+			<td> <%= @employee.id %> </td>
+			<td> <%= @employee.first_name + " " + @employee.last_name %> </td>
+			<td> <%= @cashier.id %> </td>
+			<td> <%= @cashier.first_name + " " + @cashier.last_name %> </td>
+			<td> <%= o.status %> </td>
+			<td> <%= Prize.find(o.prize_id).name %> </td>
+			<td> <%= @prize_subcat.brand %> </td>
+			<td> <%= @prize_subcat.size %> </td>
+			<td> <%= @prize_subcat.color %> </td>
+			<td> <%= o.created_at %> </td>
+			<td><a href="orders/pickup/<%= o.id %>"><div class="btn btn-warning">Take Over</div></a></td>
+		</tr>
+		<% end %>
+		</tbody>
+	</table>
+</div>
+<% end %>
